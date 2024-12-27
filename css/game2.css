@@ -54,7 +54,30 @@ h1 {
     color: #f9f6f2;
 }
 
-/* Add more styles for higher values if needed */
+.tile[data-value="16"] {
+    background-color: #d57724;
+    color: #f9f6f2;
+}
+
+.tile[data-value="32"] {
+    background-color: #cd6000;
+    color: #f9f6f2;
+}
+
+.tile[data-value="64"] {
+    background-color: #713703;
+    color: #f9f6f2;
+}
+
+.tile[data-value="128"] {
+    background-color: #8c2a06;
+    color: #f9f6f2;
+}
+
+.tile[data-value="256"] {
+    background-color: #8b1807;
+    color: #f9f6f2;
+}
 
 button {
     margin-top: 20px;
