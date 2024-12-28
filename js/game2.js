@@ -53,6 +53,8 @@ function updateGrid() {
 
 // Initialize the game
 function initializeGame() {
+    score = 0;
+    updateScoreDisplay;
     grid = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -180,6 +182,11 @@ function checkGameOver() {
 }
 
 function showGameOver() {
+    // Check if a game over message already exists
+    if (document.querySelector(".game-over")) {
+        return; // If it exists, do nothing
+    }
+    
     // Create the game over message container
     const gameOverMessage = document.createElement("div");
     gameOverMessage.classList.add("game-over");
