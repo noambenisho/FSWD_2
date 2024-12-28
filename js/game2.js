@@ -82,6 +82,7 @@ document.addEventListener("keydown", (event) => {
 
 // Move tiles in a specified direction
 function moveTiles(direction) {
+    saveState()
     let moved = false;
 
     // Helper to move a row/column in the grid
@@ -203,6 +204,34 @@ function showGameOver() {
     // Add the game over container to the body
     document.body.appendChild(gameOverMessage);
 }
+
+let previousGrid = [];
+let previousScore = 0;
+
+// Save the current state of the game
+function saveState() {
+    previousGrid = grid.map(row => [...row]); // Deep copy of the grid
+    previousScore = score; // Save the current score
+}
+
+// Undo the last move
+function undoLastMove() {
+    if (previousScore > 256) {
+        if (previousGrid.length > 0) {
+            grid = previousGrid.map(row => [...row]); // Restore the previous grid
+            score = previousScore - 256; // Restore the previous score
+            updateGrid(); // Update the grid display
+            updateScoreDisplay(); // Update the score display
+        } else {
+            alert("No moves to undo!");
+        }
+    } else {
+        alert("You don't have enough points")
+    }
+}
+
+// Event listener for the Undo button
+document.getElementById("undo").addEventListener("click", undoLastMove);
 
 document.addEventListener("DOMContentLoaded", () => {
     // Start the game on load
