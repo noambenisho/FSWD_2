@@ -16,6 +16,14 @@ h1 {
     margin-bottom: 20px;
 }
 
+#score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin: 10px;
+}
+
 #grid {
     display: grid;
     grid-template-columns: repeat(4, 100px);
@@ -26,16 +34,6 @@ h1 {
     background-color: #bbada0;
     padding: 10px;
     border-radius: 10px;
-}
-
-.square {
-    background-color: #ccc;
-    color: #776e65;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 100px;
-    border-radius: 5px;
 }
 
 .tile {
@@ -114,4 +112,34 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.game-over-message {
+    margin-bottom: 10px; 
+}
+
+.game-over button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.game-over button:hover {
+    background-color: #45a049;
 }

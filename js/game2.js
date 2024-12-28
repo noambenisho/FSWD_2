@@ -1,3 +1,5 @@
+let score = 0;
+
 // Select DOM elements
 const gridElement = document.getElementById("grid");
 const restartButton = document.getElementById("restart");
@@ -23,7 +25,6 @@ function addRandomTile() {
         grid[row][col] = Math.random() < 0.9 ? 2 : 4;
     }
 }
-
 
 // Create the grid tiles dynamically in the DOM
 function createGrid() {
@@ -89,6 +90,7 @@ function moveTiles(direction) {
         for (let i = 0; i < newRow.length - 1; i++) {
             if (newRow[i] === newRow[i + 1]) { // Merge tiles
                 newRow[i] *= 2;
+                score += newRow[i];  // Add the merged value to the score
                 newRow[i + 1] = 0; // Set the next tile to 0 after merging
                 moved = true;
             }
@@ -131,7 +133,75 @@ function moveTiles(direction) {
         }
     }
 
+    updateScoreDisplay(); // Update the score display after the move
+
+    // After the move, check if the game is over
+    if (checkGameOver()) {
+        showGameOver(); // Show game over message if the game is over
+    }
+
     return moved;
+}
+
+// Function to update the score display
+function updateScoreDisplay() {
+    const scoreElement = document.getElementById("score");
+    scoreElement.textContent = `Score: ${score}`;
+}
+
+function checkGameOver() {
+    // Check if there are any empty tiles
+    for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
+            if (grid[row][col] === 0) {
+                return false; // There is an empty tile, the game is not over
+            }
+        }
+    }
+
+    // Check if there is any possible merge (horizontally and vertically)
+    for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 3; col++) {
+            if (grid[row][col] === grid[row][col + 1]) {
+                return false; // Horizontal merge possible
+            }
+        }
+    }
+    for (let col = 0; col < 4; col++) {
+        for (let row = 0; row < 3; row++) {
+            if (grid[row][col] === grid[row + 1][col]) {
+                return false; // Vertical merge possible
+            }
+        }
+    }
+
+    return true; // If no empty tiles and no possible merges, the game is over
+}
+
+function showGameOver() {
+    // Create the game over message container
+    const gameOverMessage = document.createElement("div");
+    gameOverMessage.classList.add("game-over");
+
+    // Create the text message
+    const message = document.createElement("div");
+    message.classList.add("game-over-message");
+    message.textContent = "You lost! Click Restart to try again.";
+    
+    // Create the restart button
+    const restartButton = document.createElement("button");
+    restartButton.textContent = "Restart";
+    restartButton.addEventListener("click", () => {
+        initializeGame(); // Restart the game
+        gameOverMessage.remove(); // Remove the game over message
+    });
+
+    // Append the message and button to the game over container
+    gameOverMessage.appendChild(message);
+    gameOverMessage.appendChild(restartButton);
+
+    // Add the game over container to the body
+    document.body.appendChild(gameOverMessage);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
