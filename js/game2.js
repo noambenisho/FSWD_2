@@ -152,6 +152,58 @@ function updateScoreDisplay() {
     scoreElement.textContent = `Score: ${score}`;
 }
 
+// Load high scores from localStorage
+function loadHighScores() {
+    const scores = JSON.parse(localStorage.getItem("highScores")) || [];
+    return scores;
+}
+
+// Update high scores with the current score
+function updateHighScores(score) {
+    let highScores = loadHighScores();
+
+    // Add the current score to the high scores list
+    highScores.push(score);
+
+    // Sort the scores in descending order
+    highScores.sort((a, b) => b - a);
+
+    // Keep only the top 10 scores
+    highScores = highScores.slice(0, 10);
+
+    // Save the updated high scores
+    saveHighScores(highScores);
+}
+
+// Save high scores to localStorage
+function saveHighScores(scores) {
+    localStorage.setItem("highScores", JSON.stringify(scores));
+}
+
+// Display the high scores on the screen
+function displayHighScores() {
+    const highScores = loadHighScores();
+    const highScoresTableBody = document.getElementById("high-scores");
+
+    // Clear existing rows
+    highScoresTableBody.innerHTML = "";
+
+    // Add each score as a row in the table
+    highScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+
+        const rankCell = document.createElement("td");
+        rankCell.textContent = index + 1;
+
+        const scoreCell = document.createElement("td");
+        scoreCell.textContent = score;
+
+        row.appendChild(rankCell);
+        row.appendChild(scoreCell);
+        highScoresTableBody.appendChild(row);
+    });
+}
+
 function checkGameOver() {
     // Check if there are any empty tiles
     for (let row = 0; row < 4; row++) {
@@ -186,7 +238,7 @@ function showGameOver() {
     if (document.querySelector(".game-over")) {
         return; // If it exists, do nothing
     }
-    
+
     // Create the game over message container
     const gameOverMessage = document.createElement("div");
     gameOverMessage.classList.add("game-over");
@@ -210,6 +262,12 @@ function showGameOver() {
 
     // Add the game over container to the body
     document.body.appendChild(gameOverMessage);
+
+    // Update the high scores
+    updateHighScores(score);
+
+    // Display the high scores
+    displayHighScores();
 }
 
 let previousGrid = [];
@@ -243,4 +301,5 @@ document.getElementById("undo").addEventListener("click", undoLastMove);
 document.addEventListener("DOMContentLoaded", () => {
     // Start the game on load
     initializeGame();
+    displayHighScores();
 });

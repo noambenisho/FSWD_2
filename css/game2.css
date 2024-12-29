@@ -147,3 +147,41 @@ button {
 .game-over button:hover {
     background-color: #45a049;
 }
+
+#high-scores-section {
+    position: absolute; 
+    top: 10%; 
+    right: 2%; 
+    width: 200px; 
+    padding: 10px;
+    background-color: #f9f9f9; 
+    border: 2px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    font-family: Arial, sans-serif;
+}
+
+#high-scores-section h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#high-scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#high-scores-table th,
+#high-scores-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+#high-scores-table th {
+    background-color: #4CAF50; 
+    color: white;
+}
