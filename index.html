@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geeky Games</title>
+    <link rel="stylesheet" href="css\style.css">
+</head>
+<body>
+    <div class="background">
+        <div class="form-container">
+            <div class="title">
+                <h1>Level Up Your Gaming Experience!</h1>
+                <p class="subtitle">Join now and unlock exclusive games and achievements!</p>
+            </div>
+            <form id="login-form" class="form" onsubmit="loginUser(event)">
+                <h2>Login</h2>
+                <input type="text" placeholder="Username or Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn">Login</button>
+                <p class="switch-form">
+                    Not registered? <span onclick="showSignupForm()">Sign Up here</span>
+                </p>
+            </form>            
+            <form id="signup-form" class="form hidden" onsubmit="registerUser(event)">
+                <h2>Sign Up</h2>
+                <input type="text" placeholder="Username" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn">Sign Up</button>
+                <p class="switch-form">
+                    Already have an account? <span onclick="showLoginForm()">Login here</span>
+                </p>
+            </form>            
+        </div>
+    </div>
+    <script src="js\script.js"></script>
+</body>
+</html>
