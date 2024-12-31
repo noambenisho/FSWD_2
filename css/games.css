@@ -121,3 +121,9 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+@media (max-width: 780px) {
+    #high-scores-section {
+        visibility: hidden;
+    }
+}
