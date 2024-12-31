@@ -35,9 +35,26 @@ function drawSnake() {
 
 // Draw the food
 function drawFood() {
-    document.querySelectorAll('.cell').forEach(cell => cell.classList.remove('food'));
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.classList.remove('food');
+        cell.style.backgroundColor = '';
+        });
+
     const foodCell = document.querySelector(`.cell[data-x="${food.x}"][data-y="${food.y}"]`);
-    if (foodCell) foodCell.classList.add('food');
+    if (foodCell) {
+        foodCell.classList.add('food');
+        foodCell.style.backgroundColor = getRandomColor();
+    }
+}
+
+function getRandomColor() {
+    // Generate a random color in hex format
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 // Update the snake's position
@@ -166,8 +183,6 @@ document.addEventListener('keydown', changeDirection);
 createGrid();
 displayHighScores();
 restartGame();
-
-
 
 // Function to update the score display
 function updateScoreDisplay() {
