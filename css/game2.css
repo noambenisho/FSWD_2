@@ -1,9 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
     background-color: #faf8ef;
-    margin: 0;
-    padding: 0;
 }
 
 #game-container {
@@ -18,14 +14,6 @@ h1 {
 
 h3 {
     margin-bottom: 0;
-}
-
-#score {
-    font-size: 24px;
-    font-weight: bold;
-    color: #000000;
-    text-align: center;
-    margin: 10px;
 }
 
 #grid {
@@ -105,83 +93,4 @@ h3 {
 .tile[data-value="2048"] {
     background-color: gold;
     color: #f9f6f2;
-}
-
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #8f7a66;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.game-over {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.game-over-message {
-    margin-bottom: 10px; 
-}
-
-.game-over button {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.game-over button:hover {
-    background-color: #45a049;
-}
-
-#high-scores-section {
-    position: absolute; 
-    top: 10%; 
-    right: 2%; 
-    width: 200px; 
-    padding: 10px;
-    background-color: #f9f9f9; 
-    border: 2px solid #ddd; 
-    border-radius: 8px; 
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
-    font-family: Arial, sans-serif;
-}
-
-#high-scores-section h2 {
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-#high-scores-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-}
-
-#high-scores-table th,
-#high-scores-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
-
-#high-scores-table th {
-    background-color: #4CAF50; 
-    color: white;
 }

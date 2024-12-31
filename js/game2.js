@@ -52,9 +52,9 @@ function updateGrid() {
 }
 
 // Initialize the game
-function initializeGame() {
+function restartGame() {
     score = 0;
-    updateScoreDisplay;
+    updateScoreDisplay();
     grid = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -68,7 +68,7 @@ function initializeGame() {
 }
 
 // Restart button functionality
-restartButton.addEventListener("click", initializeGame);
+restartButton.addEventListener("click", restartGame);
 
 // Key press event listener for movement
 document.addEventListener("keydown", (event) => {
@@ -154,7 +154,7 @@ function updateScoreDisplay() {
 
 // Load high scores from localStorage
 function loadHighScores() {
-    const scores = JSON.parse(localStorage.getItem("highScores")) || [];
+    const scores = JSON.parse(localStorage.getItem("2048HighScores")) || [];
     return scores;
 }
 
@@ -177,13 +177,13 @@ function updateHighScores(score) {
 
 // Save high scores to localStorage
 function saveHighScores(scores) {
-    localStorage.setItem("highScores", JSON.stringify(scores));
+    localStorage.setItem("2048HighScores", JSON.stringify(scores));
 }
 
 // Display the high scores on the screen
 function displayHighScores() {
     const highScores = loadHighScores();
-    const highScoresTableBody = document.getElementById("high-scores");
+    const highScoresTableBody = document.getElementById("2048-high-scores");
 
     // Clear existing rows
     highScoresTableBody.innerHTML = "";
@@ -252,8 +252,14 @@ function showGameOver() {
     const restartButton = document.createElement("button");
     restartButton.textContent = "Restart";
     restartButton.addEventListener("click", () => {
-        initializeGame(); // Restart the game
+        restartGame(); // Restart the game
         gameOverMessage.remove(); // Remove the game over message
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            restartGame();
+            gameOverMessage.remove();
+        }
     });
 
     // Append the message and button to the game over container
@@ -300,6 +306,6 @@ document.getElementById("undo").addEventListener("click", undoLastMove);
 
 document.addEventListener("DOMContentLoaded", () => {
     // Start the game on load
-    initializeGame();
+    restartGame();
     displayHighScores();
 });

@@ -1,0 +1,123 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 0;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#home-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 28px;
+    color: #fff;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 50%;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+#home-icon:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+}
+
+#score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin: 20px;
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.game-over-message {
+    margin-bottom: 10px; 
+}
+
+.game-over button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.game-over button:hover {
+    background-color: #45a049;
+}
+
+#game-container {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#high-scores-section {
+    position: absolute; 
+    top: 10%; 
+    right: 2%; 
+    width: 200px; 
+    padding: 10px;
+    background-color: #f9f9f9; 
+    border: 2px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    font-family: Arial, sans-serif;
+}
+
+#high-scores-section h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#high-scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#high-scores-table th,
+#high-scores-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    color: #000;
+}
+
+#high-scores-table th {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #8f7a66;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

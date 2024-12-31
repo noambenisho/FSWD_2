@@ -39,7 +39,9 @@ function loginUser(event) {
     }
     
     if (users[username] === password) {
-        window.location.href = "../html/main.html";
+        alert("hi")
+        window.location.href = "../html/main.html";+
+        alert("bye")
     } else {
         alert("Incorrect password. Please try again.");
     }

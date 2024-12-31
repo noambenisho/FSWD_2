@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="../css/game1.css">
+    <link rel="stylesheet" href="../css/games.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <a href="../html/main.html" id="home-icon">
+        <i class="fas fa-home"></i>
+    </a>
+    <div id="game-container">
+        <h1>Snake Game</h1>
+        <p id="score">Score: 0</p>
+        <div id="difficulty">
+            <label for="difficulty-level">Choose a difficulty level: </label>
+            <select id="difficulty-level">
+                <option value="easy">easy</option>
+                <option value="medium">medium</option>
+                <option value="hard">hard</option>
+            </select>
+        </div>
+        <div id="grid"></div>
+        <div id="high-scores-section">
+            <h2>High Scores</h2>
+            <table id="high-scores-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="snake-high-scores"></tbody>
+            </table>
+        </div>   
+    </div>
+    <script src="../js/game1.js"></script>
+    <!-- <script type="module" src="../js/games.js"></script> -->
+</body>
+</html>
