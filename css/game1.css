@@ -36,8 +36,8 @@ label {
         grid-template-columns: repeat(15, 22px); 
         grid-template-rows: repeat(15, 22px);
         gap: 1px;
-        width: 242px;
-        height: 242px;
+        width: 344px;
+        height: 344px;
     }
 
     .cell {
@@ -47,12 +47,6 @@ label {
 }
 
 @media (max-width: 950px) {
-
-    #game-container {
-        margin: 20px 0; 
-        text-align: left; 
-        padding-left: 20px; 
-    }
 
     #grid {
         grid-template-columns: repeat(15, 15px); 

@@ -52,3 +52,24 @@ body {
     font-size: 1.2rem;
     color: #ff7f50;
 }
+
+#login-icon {
+    font-size: 30px;
+    color: #333;
+    text-decoration: none;
+    background-color: #f9f9f9;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: fixed;
+    left: 40px;
+    top: 40px;
+}
+
+#login-icon:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#login-icon i {
+    margin-right: 8px; 
+}
