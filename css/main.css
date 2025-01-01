@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Press Start 2P', cursive;
-    background: #000;
+    background: url("../images/dark-hexagonal-background-with-gradient-color_79603-1409.avif") no-repeat center center/cover;
     color: #fff;
     text-align: center;
 }
@@ -53,23 +53,52 @@ body {
     color: #ff7f50;
 }
 
-#login-icon {
+#logout-icon {
     font-size: 30px;
     color: #333;
     text-decoration: none;
     background-color: #f9f9f9;
-    border-radius: 50%;
+    border-radius: 60%;
     transition: background-color 0.3s ease, color 0.3s ease;
     position: fixed;
     left: 40px;
     top: 40px;
 }
 
-#login-icon:hover {
+#logout-icon:hover {
     background-color: #4CAF50;
     color: white;
 }
 
-#login-icon i {
-    margin-right: 8px; 
+#logout-icon i {
+    margin: 8px;
+}
+
+.future-game {
+    position: relative; 
+    opacity: 0.6; 
+    pointer-events: none; 
+}
+
+.future-game img {
+    filter: grayscale(80%); 
+    border: 2px dashed #ccc; 
+}
+
+.in-progress {
+    position: absolute;
+    bottom: 60px;
+    left: 0px;
+    background-color: rgba(255, 69, 0, 0.9); 
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.future-game p {
+    color: #c7b6b6; 
 }
