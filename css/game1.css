@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(226, 43, 43);
+    background-color: rgb(226, 43, 43);    
+    background: url("../images/891ee9a180d14aa4cb2f71100d7b3a987215d384.jpg") no-repeat center center/cover;
 }
 
 #grid {
@@ -28,6 +29,21 @@ body {
 
 label {
     font-weight: bold;
+}
+
+img {
+    position: fixed;
+    top: 53%;
+    left: 5%;
+    margin: 20px;
+    margin-bottom: 0px;
+}
+
+@media (max-width: 1245px) {
+    #snake_img {
+        left: 0px;
+        margin-left: 5px;
+    }
 }
 
 @media (max-width: 1050px) {

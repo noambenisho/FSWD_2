@@ -126,4 +126,12 @@ button {
     #high-scores-section {
         visibility: hidden;
     }
+
+    #snake_img {
+        transform: scale(0.5); 
+        transform-origin: center;
+        top: 65%;
+        left: 25%;
+        margin: 20px 0px;
+    }
 }

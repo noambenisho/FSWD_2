@@ -102,3 +102,64 @@ body {
 .future-game p {
     color: #c7b6b6; 
 }
+
+@media (max-width: 1000px) {
+    .homepage {
+        padding: 20px;
+        height: auto;
+    }
+
+    .site-title h1 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+
+    .game-buttons {
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    .game img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .game p {
+        font-size: 1rem;
+    }
+
+    #logout-icon {
+        font-size: 24px;
+        left: 20px;
+        top: 20px;
+    }
+
+    .in-progress {
+        font-size: 0.8rem;
+        padding: 3px 7px;
+        bottom: 50px;
+    }
+}
+
+@media (max-width: 500px) {
+    .site-title h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .game img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .in-progress {
+        font-size: 0.7rem;
+        bottom: 40px;
+    }
+
+    #logout-icon {
+        font-size: 20px;
+        left: 10px;
+        top: 10px;
+    }
+}

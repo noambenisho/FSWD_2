@@ -109,5 +109,3 @@ function registerUser(event) {
 
     window.location.href = "../html/main.html";
 }
-
-
