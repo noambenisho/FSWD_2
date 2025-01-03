@@ -17,11 +17,13 @@
                 <h2>Login</h2>
                 <input type="text" placeholder="Username or Email" required>
                 <input type="password" placeholder="Password" required>
+                <div id="login-message" class="message"></div> <!-- אלמנט להצגת הודעות -->
                 <button type="submit" class="btn">Login</button>
                 <p class="switch-form">
                     Not registered? <span onclick="showSignupForm()">Sign Up here</span>
                 </p>
-            </form>            
+            </form>
+                       
             <form id="signup-form" class="form hidden" onsubmit="registerUser(event)">
                 <h2>Sign Up</h2>
                 <input type="text" placeholder="Username" required>

@@ -1,13 +1,16 @@
+// פונקציה להצגת טופס ההרשמה
 function showSignupForm() {
     document.getElementById('login-form').classList.add('hidden');
     document.getElementById('signup-form').classList.remove('hidden');
 }
 
+// פונקציה להצגת טופס ההתחברות
 function showLoginForm() {
     document.getElementById('signup-form').classList.add('hidden');
     document.getElementById('login-form').classList.remove('hidden');
 }
 
+// פונקציה לרישום משתמשים
 function registerUser(event) {
     event.preventDefault();
 
@@ -24,94 +27,96 @@ function registerUser(event) {
     }
 
     users[username] = password;
-    userData[username] = { lastLogin: null, totalTime: 0 };
+    userData[username] = {
+        email: email,
+        lastLogin: null,  // זה ישתנה כאשר יתחבר שוב
+        totalTime: 0
+    };
+
+    // עדכון ה lastLogin בפורמט קריא
+    const currentDate = new Date();
+    userData[username].lastLogin = currentDate.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    });
+
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("userData", JSON.stringify(userData));
 
-    localStorage.setItem("currentUser", username); // שומר את המשתמש הנוכחי
-    localStorage.setItem("currentSessionStart", Date.now()); // שומר את זמן התחלת הסשן
-
-    window.location.href = "../html/main.html";
+    alert("Registration successful! You can now log in.");
+    showLoginForm();
 }
 
+// פונקציה להתחברות משתמשים
 function loginUser(event) {
     event.preventDefault();
 
-    const username = document.querySelector("#login-form input[placeholder='Username or Email']").value;
+    const usernameOrEmail = document.querySelector("#login-form input[placeholder='Username or Email']").value;
     const password = document.querySelector("#login-form input[placeholder='Password']").value;
+    const messageElement = document.getElementById("login-message");
 
     const users = JSON.parse(localStorage.getItem("users")) || {};
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const failedAttempts = JSON.parse(localStorage.getItem("failedAttempts")) || {};
 
-    if (!users[username]) {
-        alert("Username does not exist. Please register first.");
+    const lockDuration = 2 * 60 * 1000; // 2 דקות במילישניות
+    const now = Date.now();
+
+    messageElement.innerHTML = "";
+
+    const username = Object.keys(users).find((user) =>
+        user === usernameOrEmail ||
+        (userData[user] && userData[user].email === usernameOrEmail)
+    );
+
+    if (!username) {
+        messageElement.innerHTML = "User does not exist. Please register first.";
+        return;
+    }
+
+    if (failedAttempts[username] && failedAttempts[username].lockUntil > now) {
+        const remainingTime = Math.ceil((failedAttempts[username].lockUntil - now) / 1000);
+        messageElement.innerHTML = `Too many failed attempts. Please try again in ${remainingTime} seconds.`;
         return;
     }
 
     if (users[username] === password) {
-        const now = Date.now();
-        localStorage.setItem("currentUser", username);
-        localStorage.setItem("currentSessionStart", now);
+        delete failedAttempts[username];
+        localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
 
-        if (!userData[username]) {
-            userData[username] = { lastLogin: now, totalTime: 0 };
-        } else {
-            userData[username].lastLogin = now;
-        }
-
+        userData[username].lastLogin = new Date().toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        });
         localStorage.setItem("userData", JSON.stringify(userData));
+
+        localStorage.setItem("currentUser", username);
+        localStorage.setItem("currentSessionStart", Date.now());
+
         window.location.href = "../html/main.html";
     } else {
-        alert("Incorrect password. Please try again.");
+        if (!failedAttempts[username]) {
+            failedAttempts[username] = { count: 0, lockUntil: 0 };
+        }
+
+        failedAttempts[username].count++;
+
+        if (failedAttempts[username].count >= 3) {
+            failedAttempts[username].lockUntil = now + lockDuration;
+            failedAttempts[username].count = 0;
+            messageElement.innerHTML = `Too many failed attempts. You are locked out for 2 minutes.`;
+        } else {
+            messageElement.innerHTML = `Incorrect username or password. ${3 - failedAttempts[username].count} attempts remaining.`;
+        }
+
+        localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
     }
 }
-
-function calculateSessionDuration() {
-    const currentSessionStart = localStorage.getItem("currentSessionStart");
-    const username = document.querySelector("#login-form input[placeholder='Username or Email']").value;
-    const userData = JSON.parse(localStorage.getItem("userData")) || {};
-
-    if (currentSessionStart && userData[username]) {
-        const start = new Date(currentSessionStart).getTime();
-        const now = new Date().getTime();
-        const sessionDuration = Math.floor((now - start) / 1000); // זמן בסשן (בשניות)
-
-        // הוספת זמן הסשן הכולל
-        userData[username].totalTime = (userData[username].totalTime || 0) + sessionDuration;
-
-        // שמירת הנתונים המעודכנים
-        localStorage.setItem("userData", JSON.stringify(userData));
-        localStorage.removeItem("currentSessionStart"); // ניקוי זמן הסשן
-    }
-}
-
-window.addEventListener("beforeunload", () => {
-    calculateSessionDuration(); // מחשב את זמן השהייה הנוכחי
-});
-
-
-function registerUser(event) {
-    event.preventDefault(); // מניעת ריענון הדף
-    
-    const username = document.querySelector("#signup-form input[placeholder='Username']").value;
-    const email = document.querySelector("#signup-form input[placeholder='Email']").value;
-    const password = document.querySelector("#signup-form input[placeholder='Password']").value;
-
-    const users = JSON.parse(localStorage.getItem("users")) || {};
-    const userData = JSON.parse(localStorage.getItem("userData")) || {};
-
-    if (users[username]) {
-        alert("Username already exists. Please choose a different one.");
-        return;
-    }
-
-    // הוספת המשתמש ל-localStorage
-    users[username] = password;
-    userData[username] = { lastLogin: null, totalTime: 0 };
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("userData", JSON.stringify(userData));
-
-    window.location.href = "../html/main.html";
-}
-
-
