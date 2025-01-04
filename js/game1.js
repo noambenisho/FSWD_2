@@ -149,6 +149,11 @@ function showGameOver() {
 
     // Update the high scores
     updateHighScores(score);
+    
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+        updateUserHighScores(currentUser, score); // שמור את הציון של המשתמש הנוכחי
+    }
 
     // Display the high scores
     displayHighScores();
@@ -183,6 +188,48 @@ document.addEventListener('keydown', changeDirection);
 createGrid();
 displayHighScores();
 restartGame();
+
+
+// עדכון שיאי Snake עבור המשתמש הנוכחי
+function updateUserHighScores(username, score) {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+
+    // ודא שמשתמש קיים
+    if (!userData[username]) {
+        console.error("User not found in userData.");
+        return;
+    }
+
+    // אם אין עדיין שיאים, צור מערך חדש
+    if (!userData[username].snakeHighScores) {
+        userData[username].snakeHighScores = [];
+    }
+
+    // הוסף את הציון הנוכחי
+    userData[username].snakeHighScores.push(score);
+
+    // שמור את השיאים המעודכנים
+    localStorage.setItem("userData", JSON.stringify(userData));
+}
+
+// הצגת שיאי Snake עבור המשתמש הנוכחי
+function displayUserHighScores(username) {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+
+    // בדוק אם למשתמש יש שיאים
+    const highScores = userData[username]?.snakeHighScores || [];
+    const highScoresElement = document.getElementById("high-scores");
+
+    // הצג את השיאים בדף
+    if (highScoresElement) {
+        highScoresElement.innerHTML = highScores
+            .sort((a, b) => b - a) // מיון מהגבוה לנמוך
+            .map((score, index) => `<li>${index + 1}. ${score}</li>`)
+            .join("");
+    }
+}
+
+
 
 // Function to update the score display
 function updateScoreDisplay() {

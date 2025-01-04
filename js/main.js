@@ -15,7 +15,6 @@ function updateUserInfo() {
         // הצגת זמן כולל בפורמט HH:mm:ss
         const totalTimeElement = document.getElementById("total-time");
         const totalTimeInSeconds = userData[username].totalTime || 0;
-        totalTimeElement.textContent = `Total Time: ${formatTime(totalTimeInSeconds)}`;
 
         // הצגת התחברות אחרונה בפורמט קריא
         const lastLoginElement = document.getElementById("last-login");
