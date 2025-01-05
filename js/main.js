@@ -124,6 +124,7 @@ function displayHighScores(scores, title) {
 
 
 
+
 // חישוב זמן סשן עם יציאה מהדף
 window.addEventListener("beforeunload", function () {
     calculateSessionDuration();
