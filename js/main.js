@@ -16,17 +16,7 @@ function updateUserInfo() {
         const totalTimeElement = document.getElementById("total-time");
         const totalTimeInSeconds = userData[username].totalTime || 0;
 
-        // הצגת התחברות אחרונה בפורמט קריא
-        const lastLoginElement = document.getElementById("last-login");
-        const lastLoginDate = new Date(userData[username].lastLogin);  // הפורמט כבר קריא
-        lastLoginElement.textContent = `Last Login: ${lastLoginDate.toLocaleString("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-        })}`;
+    
     }
 }
 
