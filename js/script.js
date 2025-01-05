@@ -29,7 +29,7 @@ function registerUser(event) {
     users[username] = password;
     userData[username] = {
         email: email,
-        lastLogin: null,  
+        lastLogin: null,
         totalTime: 0
     };
 
@@ -49,41 +49,13 @@ function registerUser(event) {
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("userData", JSON.stringify(userData));
 
+    // שמירת שם המשתמש ב-Cookie
+    document.cookie = `username=${username}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+
     alert("Registration successful! You can now log in.");
     window.location.href = "../html/main.html";
 }
 
-// פונקציה לעדכון הודעת שגיאה
-function updateMessage(messageElement, message) {
-    messageElement.innerHTML = message;
-    if (messageElement.style.display === "none") {
-        messageElement.style.display = "block";
-    }
-}
-
-// פונקציה לעדכון הודעת נעילה עם טיימר
-function handleLockout(username, failedAttempts, messageElement) {
-    const interval = setInterval(() => {
-        const now = Date.now();
-        const remainingTime = Math.ceil((failedAttempts[username].lockUntil - now) / 1000);
-
-        if (remainingTime > 0) {
-            updateMessage(
-                messageElement,
-                `Too many failed attempts. Please try again in ${remainingTime} seconds.`
-            );
-        } else {
-            failedAttempts[username].lockUntil = 0;
-            localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
-
-            messageElement.innerHTML = "";
-            messageElement.style.display = "none";
-            clearInterval(interval);
-        }
-    }, 1000);
-}
-
-// פונקציה להתחברות משתמשים קיימים
 function loginUser(event) {
     event.preventDefault();
 
@@ -95,7 +67,7 @@ function loginUser(event) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
     const failedAttempts = JSON.parse(localStorage.getItem("failedAttempts")) || {};
 
-    const lockDuration = 2 * 60 * 100;
+    const lockDuration = 2 * 60 * 1000; // 2 דקות
     const now = Date.now();
 
     messageElement.innerHTML = "";
@@ -132,6 +104,8 @@ function loginUser(event) {
         localStorage.setItem("currentUser", username);
         localStorage.setItem("currentSessionStart", Date.now());
 
+        document.cookie = `username=${username}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+
         window.location.href = "../html/main.html";
     } else {
         if (!failedAttempts[username]) {
@@ -159,3 +133,24 @@ function loginUser(event) {
         localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
     }
 }
+
+function getCookie(name) {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+        const [key, value] = cookie.split("=");
+        if (key === name) {
+            return value;
+        }
+    }
+    return null;
+}
+
+function initializeLoginForm() {
+    const usernameField = document.querySelector("#login-form input[placeholder='Username or Email']");
+    const savedUsername = getCookie("username");
+    if (savedUsername) {
+        usernameField.value = savedUsername;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", initializeLoginForm);
