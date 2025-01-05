@@ -15,6 +15,15 @@
         <header class="site-title">
             <h1>Welcome to Geeky Games!</h1>
         </header>
+        
+        <div class="user-info">
+            <h2 id="welcome-message">שלום אורח!</h2>
+        </div>
+
+        <div id="high-scores" class="high-scores">
+            <!-- השיאים יוצגו כאן רק אם יש נתונים -->
+        </div>
+
         <div class="game-buttons">
             <!-- Existing Games -->
             <div class="game">
@@ -47,7 +56,12 @@
                 <span class="in-progress">Still in Progress</span>
             </div>
         </div>
-    </div>  
-<script src="..\js\main.js"></script>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // קוראים לפונקציה לאחר טעינת הדף
+        window.addEventListener('load', updateWelcomeAndScores);
+    </script>
 </body>
 </html>
