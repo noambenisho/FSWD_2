@@ -82,33 +82,29 @@ window.addEventListener("load", function () {
     }
 });
 
-
-
 function updateWelcomeAndScores() {
     const username = localStorage.getItem("currentUser");
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
     if (username && userData[username]) {
-        // שלום ברוך הבא
-        document.getElementById("welcome-message").textContent = `שלום ${username}!`;
+        document.getElementById("welcome-message").textContent = `Hi ${username}!`;
 
         // הצגת טבלת השיאים למשחקים
         const highScoresDiv = document.getElementById("high-scores");
         highScoresDiv.innerHTML = ""; // ניקוי כל תוכן קודם
 
         // הצגת שיאי Snake ו-2048
-        displayHighScores(userData[username].snakeHighScores, "Snake High Scores");
-        displayHighScores(userData[username].game2048HighScores, "2048 High Scores");
+        displayHighScores(userData[username].snakeHighScores, "Snake game");
+        displayHighScores(userData[username].game2048HighScores, "2048 game");
     }
 }
 
 function displayHighScores(scores, title) {
     if (scores && scores.length > 0) {
-        // סדר יורד של נתונים
-        scores.sort((a, b) => b - a); // לסדר את השיאים בסדר יורד
+        scores.sort((a, b) => b - a); 
 
-        let tableHTML = `<h3>${title}</h3><table><thead><tr><th>Score</th></tr></thead><tbody>`;
-        const maxScoresToShow = 5; // הצגת מקסימום 5 שיאים
+        let tableHTML = `<table><thead><tr><th>${title}</th></tr></thead><tbody>`;
+        const maxScoresToShow = 5; 
 
         for (let i = 0; i < Math.min(scores.length, maxScoresToShow); i++) {
             tableHTML += `<tr><td>${scores[i]}</td></tr>`;
@@ -117,13 +113,9 @@ function displayHighScores(scores, title) {
         tableHTML += `</tbody></table>`;
         document.getElementById("high-scores").innerHTML += tableHTML;
     } else {
-        document.getElementById("high-scores").innerHTML += `<p>No high scores available for ${title}.</p>`;
+        document.getElementById("high-scores").innerHTML += `<p>Start playing ${title} to see your achievements here.</p>`;
     }
 }
-
-
-
-
 
 // חישוב זמן סשן עם יציאה מהדף
 window.addEventListener("beforeunload", function () {

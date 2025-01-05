@@ -7,6 +7,14 @@ body {
     text-align: center;
 }
 
+h1 {
+    margin: 10px;
+}
+
+#welcome-message {
+    margin-bottom: 0px;
+}
+
 .homepage {
     display: flex;
     flex-direction: column;
@@ -101,6 +109,42 @@ body {
 
 .future-game p {
     color: #c7b6b6; 
+}
+
+#high-scores {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 60px;
+}
+
+#high-scores table {
+    border-collapse: collapse;
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-align: center;
+    border: 2px solid #ff7f50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#high-scores th, #high-scores td {
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#high-scores th {
+    background-color: rgba(255, 127, 80, 0.9);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#high-scores tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 @media (max-width: 1000px) {

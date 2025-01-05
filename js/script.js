@@ -29,11 +29,10 @@ function registerUser(event) {
     users[username] = password;
     userData[username] = {
         email: email,
-        lastLogin: null,  // זה ישתנה כאשר יתחבר שוב
+        lastLogin: null,  
         totalTime: 0
     };
 
-    // עדכון ה lastLogin בפורמט קריא
     const currentDate = new Date();
     userData[username].lastLogin = currentDate.toLocaleString("en-GB", {
         day: "2-digit",
@@ -44,14 +43,47 @@ function registerUser(event) {
         second: "2-digit",
     });
 
+    localStorage.setItem("currentUser", username);
+    localStorage.setItem("currentSessionStart", Date.now());
+
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("userData", JSON.stringify(userData));
 
     alert("Registration successful! You can now log in.");
-    showLoginForm();
+    window.location.href = "../html/main.html";
 }
 
-// פונקציה להתחברות משתמשים
+// פונקציה לעדכון הודעת שגיאה
+function updateMessage(messageElement, message) {
+    messageElement.innerHTML = message;
+    if (messageElement.style.display === "none") {
+        messageElement.style.display = "block";
+    }
+}
+
+// פונקציה לעדכון הודעת נעילה עם טיימר
+function handleLockout(username, failedAttempts, messageElement) {
+    const interval = setInterval(() => {
+        const now = Date.now();
+        const remainingTime = Math.ceil((failedAttempts[username].lockUntil - now) / 1000);
+
+        if (remainingTime > 0) {
+            updateMessage(
+                messageElement,
+                `Too many failed attempts. Please try again in ${remainingTime} seconds.`
+            );
+        } else {
+            failedAttempts[username].lockUntil = 0;
+            localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
+
+            messageElement.innerHTML = "";
+            messageElement.style.display = "none";
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+// פונקציה להתחברות משתמשים קיימים
 function loginUser(event) {
     event.preventDefault();
 
@@ -63,7 +95,7 @@ function loginUser(event) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
     const failedAttempts = JSON.parse(localStorage.getItem("failedAttempts")) || {};
 
-    const lockDuration = 2 * 60 * 1000; // 2 דקות במילישניות
+    const lockDuration = 2 * 60 * 100;
     const now = Date.now();
 
     messageElement.innerHTML = "";
@@ -74,13 +106,12 @@ function loginUser(event) {
     );
 
     if (!username) {
-        messageElement.innerHTML = "User does not exist. Please register first.";
+        updateMessage(messageElement, "User does not exist. Please register first.");
         return;
     }
 
     if (failedAttempts[username] && failedAttempts[username].lockUntil > now) {
-        const remainingTime = Math.ceil((failedAttempts[username].lockUntil - now) / 1000);
-        messageElement.innerHTML = `Too many failed attempts. Please try again in ${remainingTime} seconds.`;
+        handleLockout(username, failedAttempts, messageElement);
         return;
     }
 
@@ -107,16 +138,24 @@ function loginUser(event) {
             failedAttempts[username] = { count: 0, lockUntil: 0 };
         }
 
-        failedAttempts[username].count++;
+        if (failedAttempts[username].lockUntil === 0) {
+            failedAttempts[username].count++;
 
-        if (failedAttempts[username].count >= 3) {
-            failedAttempts[username].lockUntil = now + lockDuration;
-            failedAttempts[username].count = 0;
-            messageElement.innerHTML = `Too many failed attempts. You are locked out for 2 minutes.`;
-        } else {
-            messageElement.innerHTML = `Incorrect username or password. ${3 - failedAttempts[username].count} attempts remaining.`;
+            if (failedAttempts[username].count >= 3) {
+                failedAttempts[username].lockUntil = now + lockDuration;
+                failedAttempts[username].count = 0;
+                updateMessage(
+                    messageElement,
+                    `Too many failed attempts. You are locked out for 2 minutes.`
+                );
+                handleLockout(username, failedAttempts, messageElement);
+            } else {
+                updateMessage(
+                    messageElement,
+                    `Incorrect username or password. ${3 - failedAttempts[username].count} attempts remaining.`
+                );
+            }
         }
-
         localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
     }
 }
