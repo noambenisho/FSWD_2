@@ -128,10 +128,18 @@ button {
     }
 
     #snake_img {
-        transform: scale(0.5); 
+        transform: scale(0.45); 
         transform-origin: center;
         top: 65%;
         left: 25%;
         margin: 20px 0px;
+    }
+
+    #start-game {
+        margin-top: 0px;
+    }
+
+    #grid {
+        margin-bottom: 0px;
     }
 }

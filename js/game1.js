@@ -184,11 +184,27 @@ function restartGame() {
 // Event listeners
 document.addEventListener('keydown', changeDirection);
 
+let isGameRunning = false;
+
+function startGame() {
+    if (!isGameRunning) {
+        isGameRunning = true; 
+        restartGame(); 
+    }
+}
+
+const startButton = document.getElementById("start-game");
+startButton.addEventListener("click", startGame);
+
+document.addEventListener("keydown", (event) => {
+    if (event.code === "Space") {
+        startGame();
+    }
+});
+
 // Initialize the game
 createGrid();
 displayHighScores();
-restartGame();
-
 
 // עדכון שיאי Snake עבור המשתמש הנוכחי
 function updateUserHighScores(username, score) {
@@ -228,8 +244,6 @@ function displayUserHighScores(username) {
             .join("");
     }
 }
-
-
 
 // Function to update the score display
 function updateScoreDisplay() {
