@@ -272,6 +272,12 @@ function showGameOver() {
     // Update the high scores
     updateHighScores(score);
 
+     
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+        updateUserHighScores(currentUser, score); // שמור את הציון של המשתמש הנוכחי
+    }
+
     // Display the high scores
     displayHighScores();
 }
@@ -299,6 +305,28 @@ function undoLastMove() {
     } else {
         alert("You don't have enough points")
     }
+}
+
+
+function updateUserHighScores(username, score) {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+
+    // ודא שמשתמש קיים
+    if (!userData[username]) {
+        console.error("User not found in userData.");
+        return;
+    }
+
+    // אם אין עדיין שיאים, צור מערך חדש
+    if (!userData[username].game2048HighScores) {
+        userData[username].game2048HighScores = [];
+    }
+
+    // הוסף את הציון הנוכחי
+    userData[username].game2048HighScores.push(score);
+
+    // שמור את השיאים המעודכנים
+    localStorage.setItem("userData", JSON.stringify(userData));
 }
 
 // Event listener for the Undo button
