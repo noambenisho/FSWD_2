@@ -56,6 +56,34 @@ function registerUser(event) {
     window.location.href = "../html/main.html";
 }
 
+// פונקציה לעדכון הודעת שגיאה
+function updateMessage(messageElement, message) {
+    messageElement.innerHTML = message;
+    if (messageElement.style.display === "none") {
+        messageElement.style.display = "block";
+    }
+}
+// פונקציה לעדכון הודעת נעילה עם טיימר
+function handleLockout(username, failedAttempts, messageElement) {
+    const interval = setInterval(() => {
+        const now = Date.now();
+        const remainingTime = Math.ceil((failedAttempts[username].lockUntil - now) / 1000);
+        if (remainingTime > 0) {
+            updateMessage(
+                messageElement,
+                `Too many failed attempts. Please try again in ${remainingTime} seconds.`
+            );
+        } else {
+            failedAttempts[username].lockUntil = 0;
+            localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
+            messageElement.innerHTML = "";
+            messageElement.style.display = "none";
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+// פונקציה להתחברות משתמשים קיימים
 function loginUser(event) {
     event.preventDefault();
 
@@ -67,7 +95,7 @@ function loginUser(event) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
     const failedAttempts = JSON.parse(localStorage.getItem("failedAttempts")) || {};
 
-    const lockDuration = 2 * 60 * 1000; // 2 דקות
+    const lockDuration = 2 * 60 * 1000; 
     const now = Date.now();
 
     messageElement.innerHTML = "";
