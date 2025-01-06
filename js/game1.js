@@ -48,14 +48,21 @@ function drawFood() {
 }
 
 function getRandomColor() {
-    // Generate a random color in hex format
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
+    const minColor = '#B9B9B9';
+    const maxColor = '#FFFFFF';
+
+    let color;
+    do {
+        const letters = '0123456789ABCDEF';
+        color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+    } while (parseInt(color.substring(1), 16) < parseInt(minColor.substring(1), 16) || parseInt(color.substring(1), 16) > parseInt(maxColor.substring(1), 16));
+
     return color;
 }
+
 
 // Update the snake's position
 function moveSnake() {
@@ -239,7 +246,7 @@ function displayUserHighScores(username) {
     // הצג את השיאים בדף
     if (highScoresElement) {
         highScoresElement.innerHTML = highScores
-            .sort((a, b) => b - a) // מיון מהגבוה לנמוך
+            .sort((a, b) => b - a)
             .map((score, index) => `<li>${index + 1}. ${score}</li>`)
             .join("");
     }
@@ -251,54 +258,63 @@ function updateScoreDisplay() {
     scoreElement.textContent = `Score: ${score}`;
 }
 
-// Load high scores from localStorage
-function loadHighScores() {
-    const scores = JSON.parse(localStorage.getItem("snakeHighScores")) || [];
-    return scores;
+function saveHighScore(score, difficulty) {
+    const scoresKey = `${difficulty}-highScores`;
+    const scores = JSON.parse(localStorage.getItem(scoresKey)) || [];
+    const currentUser = localStorage.getItem("currentUser");
+
+    if (!currentUser) {
+        console.error("No current user found!");
+        return;
+    }
+
+    scores.push({ score, username: currentUser });
+
+    const sortedScores = scores.sort((a, b) => b.score - a.score).slice(0, 10);
+    localStorage.setItem(scoresKey, JSON.stringify(sortedScores));
 }
 
-// Update high scores with the current score
-function updateHighScores(score) {
-    let highScores = loadHighScores();
 
-    // Add the current score to the high scores list
-    highScores.push(score);
-
-    // Sort the scores in descending order
-    highScores.sort((a, b) => b - a);
-
-    // Keep only the top 10 scores
-    highScores = highScores.slice(0, 10);
-
-    // Save the updated high scores
-    saveHighScores(highScores);
+function loadHighScores(difficulty) {
+    const scoresKey = `${difficulty}-highScores`;
+    return JSON.parse(localStorage.getItem(scoresKey)) || [];
 }
 
-// Save high scores to localStorage
-function saveHighScores(scores) {
-    localStorage.setItem("snakeHighScores", JSON.stringify(scores));
-}
-
-// Display the high scores on the screen
 function displayHighScores() {
-    const highScores = loadHighScores();
-    const highScoresTableBody = document.getElementById("snake-high-scores");
+    const difficulty = document.getElementById("difficulty-level").value;
+    const tables = document.querySelectorAll(".high-scores-table");
+    const titels = document.querySelectorAll('h2');
 
-    // Clear existing rows
-    highScoresTableBody.innerHTML = "";
+    tables.forEach(table => table.style.display = "none");
+    titels.forEach(t => t.style.display = "none");
 
-    // Add each score as a row in the table
-    highScores.forEach((score, index) => {
-        const row = document.createElement("tr");
+    const tableId = `${difficulty}-high-scores`;
+    const highScoresTable = document.getElementById(tableId);
+    const difficulty_title = document.getElementById(`${difficulty}-h2`);
+    if (highScoresTable && difficulty_title) {
+        highScoresTable.style.display = "table";
+        difficulty_title.style.display = "block";
+        const highScoresTableBody = highScoresTable.querySelector("tbody");
 
-        const rankCell = document.createElement("td");
-        rankCell.textContent = index + 1;
-
-        const scoreCell = document.createElement("td");
-        scoreCell.textContent = score;
-
-        row.appendChild(rankCell);
-        row.appendChild(scoreCell);
-        highScoresTableBody.appendChild(row);
-    });
+        const highScores = loadHighScores(difficulty);
+        highScoresTableBody.innerHTML = highScores
+            .map((entry, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${entry.score}</td>
+                    <td>${entry.username}</td>
+                </tr>
+            `)
+            .join("");
+    } else {
+        console.error(`Table with ID ${tableId} not found.`);
+    }
 }
+
+function updateHighScores(score) {
+    const difficulty = document.getElementById("difficulty-level").value;
+    saveHighScore(score, difficulty);
+    displayHighScores();
+}
+
+document.getElementById("difficulty-level").addEventListener("change", displayHighScores);

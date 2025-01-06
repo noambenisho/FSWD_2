@@ -26,16 +26,42 @@
         <div id="grid"></div>
         <button id="start-game">Start Game</button>
         <div id="high-scores-section">
-            <h2>High Scores</h2>
-            <table id="high-scores-table">
+            <h2 id="easy-h2">High Scores<br>Easy mode</h2>
+            <h2 id="medium-h2">High Scores<br>Medium mode</h2>
+            <h2 id="hard-h2">High Scores<br>Hard mode</h2>
+
+            <table id="easy-high-scores" class="high-scores-table">
                 <thead>
                     <tr>
                         <th>Rank</th>
                         <th>Score</th>
+                        <th>Username</th>
                     </tr>
                 </thead>
-                <tbody id="snake-high-scores"></tbody>
+                <tbody></tbody>
             </table>
+        
+            <table id="medium-high-scores" class="high-scores-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Score</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        
+            <table id="hard-high-scores" class="high-scores-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Score</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>          
         </div> 
         <div id="snake_img_container">
             <img id="snake_img" src="../images/81bUpjf9vuL.png">  
