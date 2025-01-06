@@ -152,34 +152,6 @@ function updateScoreDisplay() {
     scoreElement.textContent = `Score: ${score}`;
 }
 
-// // Load high scores from localStorage
-// function loadHighScores() {
-//     const scores = JSON.parse(localStorage.getItem("2048HighScores")) || [];
-//     return scores;
-// }
-
-// // Update high scores with the current score
-// function updateHighScores(score) {
-//     let highScores = loadHighScores();
-
-//     // Add the current score to the high scores list
-//     highScores.push(score);
-
-//     // Sort the scores in descending order
-//     highScores.sort((a, b) => b - a);
-
-//     // Keep only the top 10 scores
-//     highScores = highScores.slice(0, 10);
-
-//     // Save the updated high scores
-//     saveHighScores(highScores);
-// }
-
-// // Save high scores to localStorage
-// function saveHighScores(scores) {
-//     localStorage.setItem("2048HighScores", JSON.stringify(scores));
-// }
-
 // Update high scores with the current score and username
 function updateHighScores(score) {
     const currentUser = localStorage.getItem("currentUser") || "Guest"; 
@@ -208,30 +180,6 @@ function loadHighScores() {
     return JSON.parse(localStorage.getItem("2048HighScores")) || [];
 }
 
-// // Display the high scores on the screen
-// function displayHighScores() {
-//     const highScores = loadHighScores();
-//     const highScoresTableBody = document.getElementById("2048-high-scores");
-
-//     // Clear existing rows
-//     highScoresTableBody.innerHTML = "";
-
-//     // Add each score as a row in the table
-//     highScores.forEach((score, index) => {
-//         const row = document.createElement("tr");
-
-//         const rankCell = document.createElement("td");
-//         rankCell.textContent = index + 1;
-
-//         const scoreCell = document.createElement("td");
-//         scoreCell.textContent = score;
-
-//         row.appendChild(rankCell);
-//         row.appendChild(scoreCell);
-//         highScoresTableBody.appendChild(row);
-//     });
-// }
-
 // Display the high scores on the screen
 function displayHighScores() {
     const highScores = loadHighScores();
@@ -247,15 +195,15 @@ function displayHighScores() {
         const rankCell = document.createElement("td");
         rankCell.textContent = index + 1;
 
-        const userCell = document.createElement("td");
-        userCell.textContent = username;
-
         const scoreCell = document.createElement("td");
         scoreCell.textContent = score;
 
+        const userCell = document.createElement("td");
+        userCell.textContent = username;
+
         row.appendChild(rankCell);
-        row.appendChild(userCell);
         row.appendChild(scoreCell);
+        row.appendChild(userCell);
         highScoresTableBody.appendChild(row);
     });
 }
@@ -288,55 +236,6 @@ function checkGameOver() {
 
     return true; // If no empty tiles and no possible merges, the game is over
 }
-
-// function showGameOver() {
-//     // Check if a game over message already exists
-//     if (document.querySelector(".game-over")) {
-//         return; // If it exists, do nothing
-//     }
-
-//     // Create the game over message container
-//     const gameOverMessage = document.createElement("div");
-//     gameOverMessage.classList.add("game-over");
-
-//     // Create the text message
-//     const message = document.createElement("div");
-//     message.classList.add("game-over-message");
-//     message.textContent = "You lost! Click Restart to try again.";
-    
-//     // Create the restart button
-//     const restartButton = document.createElement("button");
-//     restartButton.textContent = "Restart";
-//     restartButton.addEventListener("click", () => {
-//         restartGame(); // Restart the game
-//         gameOverMessage.remove(); // Remove the game over message
-//     });
-//     document.addEventListener('keydown', (event) => {
-//         if (event.key === 'Enter') {
-//             restartGame();
-//             gameOverMessage.remove();
-//         }
-//     });
-
-//     // Append the message and button to the game over container
-//     gameOverMessage.appendChild(message);
-//     gameOverMessage.appendChild(restartButton);
-
-//     // Add the game over container to the body
-//     document.body.appendChild(gameOverMessage);
-
-//     // Update the high scores
-//     updateHighScores(score);
-
-     
-//     const currentUser = localStorage.getItem("currentUser");
-//     if (currentUser) {
-//         updateUserHighScores(currentUser, score); // שמור את הציון של המשתמש הנוכחי
-//     }
-
-//     // Display the high scores
-//     displayHighScores();
-// }
 
 function showGameOver() {
     // Check if a game over message already exists
