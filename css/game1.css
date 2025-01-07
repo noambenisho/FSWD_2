@@ -1,6 +1,7 @@
 body {
     background-color: rgb(226, 43, 43);    
     background: url("../images/891ee9a180d14aa4cb2f71100d7b3a987215d384.jpg") no-repeat center center/cover;
+    overflow: hidden;
 }
 
 #grid {
