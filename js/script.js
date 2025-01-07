@@ -49,9 +49,6 @@ function registerUser(event) {
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("userData", JSON.stringify(userData));
 
-    // set a cookie to remember the username for 7 days
-    document.cookie = `username=${username}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
-
     alert("Registration successful! You can now log in.");
     window.location.href = "../html/main.html";
 }
@@ -133,7 +130,6 @@ function loginUser(event) {
         localStorage.setItem("currentUser", username);
         localStorage.setItem("currentSessionStart", Date.now());
 
-        document.cookie = `username=${username}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
 
         window.location.href = "../html/main.html";
     } else {
@@ -163,23 +159,10 @@ function loginUser(event) {
     }
 }
 
-function getCookie(name) {
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-        const [key, value] = cookie.split("=");
-        if (key === name) {
-            return value;
-        }
-    }
-    return null;
-}
+
 
 function initializeLoginForm() {
     const usernameField = document.querySelector("#login-form input[placeholder='Username or Email']");
-    const savedUsername = getCookie("username");
-    if (savedUsername) {
-        usernameField.value = savedUsername;
-    }
-}
+
 
 document.addEventListener("DOMContentLoaded", initializeLoginForm);
