@@ -6,11 +6,12 @@ const scoreDisplay = document.getElementById('score');
 // Game variables
 let direction = { x: 1, y: 0 };
 let food = { x: 5, y: 5 };
+let foodColor;
 let score = 0;
 let gameInterval;
 let difficulty = {easy: 300, medium: 200, hard: 100}
 
-// Create the grid dynamically
+// Create the grid dynamically 
 function createGrid() {
     grid.innerHTML = '';
     for (let i = 0; i < gridSize; i++) {
@@ -37,13 +38,14 @@ function drawSnake() {
 function drawFood() {
     document.querySelectorAll('.cell').forEach(cell => {
         cell.classList.remove('food');
-        cell.style.backgroundColor = '';
+        cell.style.backgroundColor = ''; // Reset the color to black
         });
 
     const foodCell = document.querySelector(`.cell[data-x="${food.x}"][data-y="${food.y}"]`);
     if (foodCell) {
         foodCell.classList.add('food');
-        foodCell.style.backgroundColor = getRandomColor();
+        foodColor = getRandomColor();
+        foodCell.style.backgroundColor = foodColor;
     }
 }
 
@@ -80,6 +82,7 @@ function moveSnake() {
     if (head.x === food.x && head.y === food.y) {
         score++;
         scoreDisplay.textContent = `Score: ${score}`;
+        document.documentElement.style.setProperty('--snake-color', foodColor); // Change the snake color to the food color when eating
         placeFood();
     } else {
         snake.pop();
@@ -159,7 +162,7 @@ function showGameOver() {
     
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
-        updateUserHighScores(currentUser, score); // שמור את הציון של המשתמש הנוכחי
+        updateUserHighScores(currentUser, score); // Update the current user's high scores in the local storage
     }
 
     // Display the high scores
@@ -170,6 +173,9 @@ function showGameOver() {
 function restartGame() {
     updateScoreDisplay();
 
+    document.documentElement.style.setProperty('--snake-color', "green"); // Reset the snake color to green
+
+    // Clear the game interval if it exists to prevent multiple intervals running at the same time
     if (gameInterval) {
         clearInterval(gameInterval);
     }
@@ -185,7 +191,7 @@ function restartGame() {
     placeFood();
     drawSnake();
     let level = document.querySelector('select').value
-    gameInterval = setInterval(moveSnake, difficulty[level]);
+    gameInterval = setInterval(moveSnake, difficulty[level]); // Change the speed of the snake based on the difficulty level
 }
 
 // Event listeners
@@ -252,6 +258,7 @@ function updateScoreDisplay() {
     scoreElement.textContent = `Score: ${score}`;
 }
 
+// Function to save the high score in the local storage based on the difficulty level
 function saveHighScore(score, difficulty) {
     const scoresKey = `${difficulty}-highScores`;
     const scores = JSON.parse(localStorage.getItem(scoresKey)) || [];
@@ -268,12 +275,12 @@ function saveHighScore(score, difficulty) {
     localStorage.setItem(scoresKey, JSON.stringify(sortedScores));
 }
 
-
 function loadHighScores(difficulty) {
     const scoresKey = `${difficulty}-highScores`;
     return JSON.parse(localStorage.getItem(scoresKey)) || [];
 }
 
+// Function to display the high scores based on the difficulty level that the user selects
 function displayHighScores() {
     const difficulty = document.getElementById("difficulty-level").value;
     const tables = document.querySelectorAll(".high-scores-table");

@@ -26,7 +26,7 @@ function addRandomTile() {
     }
 }
 
-// Create the grid tiles dynamically in the DOM
+// Create the visual grid tiles dynamically in the DOM
 function createGrid() {
     gridElement.innerHTML = ""; 
     for (let i = 0; i < 16; i++) {
@@ -36,7 +36,7 @@ function createGrid() {
     }
 }
 
-// Update the DOM to reflect the grid
+// Update the DOM to reflect the visual grid
 function updateGrid() {
     const tiles = document.querySelectorAll(".tile");
     let index = 0;
@@ -63,8 +63,8 @@ function restartGame() {
     ];
     createGrid(); // Create the grid visualization on load
     addRandomTile();
-    addRandomTile(); // add the initial 2 tiles
-    updateGrid();
+    addRandomTile(); // add the initial 2 tiles to the grid
+    updateGrid(); // Update the grid display
 }
 
 // Restart button functionality
@@ -154,7 +154,7 @@ function updateScoreDisplay() {
 
 // Update high scores with the current score and username
 function updateHighScores(score) {
-    const currentUser = localStorage.getItem("currentUser") || "Guest"; 
+    const currentUser = localStorage.getItem("currentUser") || "Guest"; // Get the current username or "Guest" if not found
     let highScores = loadHighScores();
 
     // Add the current score and username to the high scores list
@@ -279,7 +279,7 @@ function showGameOver() {
     
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
-        updateUserHighScores(currentUser, score); // שמור את הציון של המשתמש הנוכחי
+        updateUserHighScores(currentUser, score);
     }
 
     // Display the high scores
@@ -311,7 +311,7 @@ function undoLastMove() {
     }
 }
 
-
+// Update the user's high scores in localStorage of the current user
 function updateUserHighScores(username, score) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
@@ -337,8 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
     restartGame();
     displayHighScores();
 });
-
-
 
 // Phone support
 let startX, startY, endX, endY;

@@ -19,9 +19,14 @@ body {
     background-color: #111;
 }
 
+:root {
+    --snake-color: green; 
+}
+
 .snake {
-    background-color: green;
-} 
+    background-color: var(--snake-color); /* switch the color in the JS */
+}
+
 
 .food {
     background-color: red;
