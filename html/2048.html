@@ -32,7 +32,12 @@
             <div class="tile"></div>
             <div class="tile"></div>
             <div class="tile"></div>
-        </div>
+        </div>            
+        <div id="game-controls">
+            <h3>You can go back one step at a cost of 256 points</h3>
+            <button id="undo">Undo</button>
+        </div>        
+        <button id="restart">Restart</button>
         <div id="high-scores-section">
             <h2>High Scores</h2>
             <table class="high-scores-table">
@@ -45,12 +50,7 @@
                 </thead>
                 <tbody id="2048-high-scores"></tbody>
             </table>
-        </div>               
-        <div id="game-controls">
-            <h3>You can go back one step at a cost of 256 points</h3>
-            <button id="undo">Undo</button>
-        </div>        
-        <button id="restart">Restart</button>
+        </div>   
     </div>
     <script src="..\js\2048.js"></script>
 </body>

@@ -123,23 +123,28 @@ button {
 }
 
 @media (max-width: 780px) {
-    .high-scores-section {
-        visibility: hidden;
+    #high-scores-section {
+        position: static; 
+        width: 80%; 
+        margin-top: 20px; 
     }
 
-    #snake_img {
-        transform: scale(0.45); 
-        transform-origin: center;
-        top: 65%;
-        left: 25%;
-        margin: 20px 0px;
+    #game-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     #start-game {
-        margin-top: 0px;
+        margin-bottom: 10px; 
     }
 
-    #grid {
-        margin-bottom: 0px;
+    .high-scores-table {
+        width: 60%; 
+        margin: 0 auto; 
+    }
+
+    #snake_img {
+        visibility: hidden;
     }
 }
