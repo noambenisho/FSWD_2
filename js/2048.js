@@ -341,3 +341,53 @@ document.addEventListener("DOMContentLoaded", () => {
     restartGame();
     displayHighScores();
 });
+
+
+
+// Phone support
+let startX, startY, endX, endY;
+
+// זיהוי תחילת מגע
+document.addEventListener("touchstart", (event) => {
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+});
+
+// זיהוי סיום מגע
+document.addEventListener("touchend", (event) => {
+    const touch = event.changedTouches[0];
+    endX = touch.clientX;
+    endY = touch.clientY;
+
+    handleSwipe();
+});
+
+// טיפול במחוות החלקה
+function handleSwipe() {
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+
+    // אם ההחלקה משמעותית מספיק
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (Math.abs(deltaX) > 30) {
+            if (deltaX > 0) {
+                moveTiles("ArrowRight"); // החלקה ימינה
+            } else {
+                moveTiles("ArrowLeft"); // החלקה שמאלה
+            }
+        }
+    } else {
+        if (Math.abs(deltaY) > 30) {
+            if (deltaY > 0) {
+                moveTiles("ArrowDown"); // החלקה למטה
+            } else {
+                moveTiles("ArrowUp"); // החלקה למעלה
+            }
+        }
+    }
+
+    // עדכון הרשת לאחר ההחלקה
+    addRandomTile();
+    updateGrid();
+}

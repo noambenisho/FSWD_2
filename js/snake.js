@@ -318,3 +318,45 @@ function updateHighScores(score) {
 }
 
 document.getElementById("difficulty-level").addEventListener("change", displayHighScores);
+
+
+// Phone support
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+// זיהוי תחילת המגע
+document.addEventListener("touchstart", (event) => {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+});
+
+// זיהוי סיום המגע
+document.addEventListener("touchend", (event) => {
+    touchEndX = event.changedTouches[0].clientX;
+    touchEndY = event.changedTouches[0].clientY;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+
+    // בדיקה אם ההחלקה אופקית או אנכית
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // החלקה אופקית
+        if (deltaX > 0 && direction.x === 0) {
+            direction = { x: 1, y: 0 }; // ימינה
+        } else if (deltaX < 0 && direction.x === 0) {
+            direction = { x: -1, y: 0 }; // שמאלה
+        }
+    } else {
+        // החלקה אנכית
+        if (deltaY > 0 && direction.y === 0) {
+            direction = { x: 0, y: 1 }; // למטה
+        } else if (deltaY < 0 && direction.y === 0) {
+            direction = { x: 0, y: -1 }; // למעלה
+        }
+    }
+}
