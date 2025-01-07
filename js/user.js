@@ -130,7 +130,6 @@ function loginUser(event) {
         localStorage.setItem("currentUser", username);
         localStorage.setItem("currentSessionStart", Date.now());
 
-
         window.location.href = "../html/main.html";
     } else {
         if (!failedAttempts[username]) {
@@ -158,8 +157,6 @@ function loginUser(event) {
         localStorage.setItem("failedAttempts", JSON.stringify(failedAttempts));
     }
 }
-
-
 
 function initializeLoginForm() {
     const usernameField = document.querySelector("#login-form input[placeholder='Username or Email']");
