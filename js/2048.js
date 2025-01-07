@@ -315,21 +315,17 @@ function undoLastMove() {
 function updateUserHighScores(username, score) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
-    // ודא שמשתמש קיים
     if (!userData[username]) {
         console.error("User not found in userData.");
         return;
     }
 
-    // אם אין עדיין שיאים, צור מערך חדש
     if (!userData[username].game2048HighScores) {
         userData[username].game2048HighScores = [];
     }
 
-    // הוסף את הציון הנוכחי
     userData[username].game2048HighScores.push(score);
 
-    // שמור את השיאים המעודכנים
     localStorage.setItem("userData", JSON.stringify(userData));
 }
 
@@ -347,14 +343,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // Phone support
 let startX, startY, endX, endY;
 
-// זיהוי תחילת מגע
+// this event listener will handle the start of the swipe
 document.addEventListener("touchstart", (event) => {
     const touch = event.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
 });
 
-// זיהוי סיום מגע
+// this event listener will handle the end of the swipe
 document.addEventListener("touchend", (event) => {
     const touch = event.changedTouches[0];
     endX = touch.clientX;
@@ -363,31 +359,30 @@ document.addEventListener("touchend", (event) => {
     handleSwipe();
 });
 
-// טיפול במחוות החלקה
+// this function will handle the swipe
 function handleSwipe() {
     const deltaX = endX - startX;
     const deltaY = endY - startY;
 
-    // אם ההחלקה משמעותית מספיק
+    // check if the swipe is horizontal or vertical
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
         if (Math.abs(deltaX) > 30) {
             if (deltaX > 0) {
-                moveTiles("ArrowRight"); // החלקה ימינה
+                moveTiles("ArrowRight"); 
             } else {
-                moveTiles("ArrowLeft"); // החלקה שמאלה
+                moveTiles("ArrowLeft"); 
             }
         }
     } else {
         if (Math.abs(deltaY) > 30) {
             if (deltaY > 0) {
-                moveTiles("ArrowDown"); // החלקה למטה
+                moveTiles("ArrowDown"); 
             } else {
-                moveTiles("ArrowUp"); // החלקה למעלה
+                moveTiles("ArrowUp"); 
             }
         }
     }
 
-    // עדכון הרשת לאחר ההחלקה
     addRandomTile();
     updateGrid();
 }

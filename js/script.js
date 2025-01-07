@@ -1,16 +1,16 @@
-// פונקציה להצגת טופס ההרשמה
+// function to show the signup form 
 function showSignupForm() {
     document.getElementById('login-form').classList.add('hidden');
     document.getElementById('signup-form').classList.remove('hidden');
 }
 
-// פונקציה להצגת טופס ההתחברות
+// function to show the login form
 function showLoginForm() {
     document.getElementById('signup-form').classList.add('hidden');
     document.getElementById('login-form').classList.remove('hidden');
 }
 
-// פונקציה לרישום משתמשים
+// function to register a new user and store their data in local storage
 function registerUser(event) {
     event.preventDefault();
 
@@ -49,21 +49,22 @@ function registerUser(event) {
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("userData", JSON.stringify(userData));
 
-    // שמירת שם המשתמש ב-Cookie
+    // set a cookie to remember the username for 7 days
     document.cookie = `username=${username}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
 
     alert("Registration successful! You can now log in.");
     window.location.href = "../html/main.html";
 }
 
-// פונקציה לעדכון הודעת שגיאה
+// function to update the message displayed to the user
 function updateMessage(messageElement, message) {
     messageElement.innerHTML = message;
     if (messageElement.style.display === "none") {
         messageElement.style.display = "block";
     }
 }
-// פונקציה לעדכון הודעת נעילה עם טיימר
+
+// function to handle lockout of users after too many failed login attempts
 function handleLockout(username, failedAttempts, messageElement) {
     const interval = setInterval(() => {
         const now = Date.now();
@@ -83,7 +84,7 @@ function handleLockout(username, failedAttempts, messageElement) {
     }, 1000);
 }
 
-// פונקציה להתחברות משתמשים קיימים
+// function to log in users and handle failed login attempts
 function loginUser(event) {
     event.preventDefault();
 

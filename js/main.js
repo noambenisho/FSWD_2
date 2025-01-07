@@ -1,4 +1,4 @@
-// פונקציה לחישוב זמן בפורמט HH:mm:ss
+// format time in HH:mm:ss format
 function formatTime(seconds) {
     const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
     const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
@@ -6,29 +6,28 @@ function formatTime(seconds) {
     return `${hrs}:${mins}:${secs}`;
 }
 
-// פונקציה לעדכון המידע ב- DOM
+// update user info in the DOM
 function updateUserInfo() {
     const username = localStorage.getItem("currentUser");
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
     if (username && userData[username]) {
-        // הצגת זמן כולל בפורמט HH:mm:ss
         const totalTimeElement = document.getElementById("total-time");
         const totalTimeInSeconds = userData[username].totalTime || 0;
 
-    
+        totalTimeElement.textContent = formatTime(totalTimeInSeconds);
     }
 }
 
-// פונקציה ליציאה מהמערכת
+// the logout button
 document.getElementById("logout-icon").addEventListener("click", function () {
-    calculateSessionDuration(); // חישוב זמן סשן לפני יציאה
+    calculateSessionDuration(); 
     localStorage.removeItem("currentUser");
     localStorage.removeItem("currentSessionStart");
     window.location.href = "../html/login.html";
 });
 
-// חישוב זמן סשן עם יציאה מהדף
+// calculate session duration
 function calculateSessionDuration() {
     const username = localStorage.getItem("currentUser");
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
@@ -36,22 +35,22 @@ function calculateSessionDuration() {
     const now = Date.now();
 
     if (sessionStart && username) {
-        const sessionDuration = Math.floor((now - sessionStart) / 1000); // חישוב הזמן שעבר
-        const currentTotal = userData[username]?.totalTime || 0; // זמן כולל קיים בשניות
-        const newTotal = currentTotal + sessionDuration; // חישוב הזמן הכולל החדש
+        const sessionDuration = Math.floor((now - sessionStart) / 1000); // calculate session duration in seconds
+        const currentTotal = userData[username]?.totalTime || 0; 
+        const newTotal = currentTotal + sessionDuration; 
 
         userData[username].totalTime = newTotal;
         localStorage.setItem("userData", JSON.stringify(userData));
     }
 }
 
-// עדכון מידע עם טעינת העמוד
+// update user info when the page loads
 window.addEventListener("load", function () {
     const username = localStorage.getItem("currentUser");
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
     if (username) {
-        // עדכון שעת התחברות
+        // update last login time
         if (!userData[username].lastLogin) {
             userData[username].lastLogin = new Date().toLocaleString("en-GB", {
                 day: "2-digit",
@@ -64,10 +63,10 @@ window.addEventListener("load", function () {
             localStorage.setItem("userData", JSON.stringify(userData));
         }
 
-        // עדכון זמן התחלה
+        // update session start time
         localStorage.setItem("currentSessionStart", Date.now());
 
-        // עדכון מידע ב- DOM
+        // update user info in the DOM
         updateUserInfo();
     }
 });
@@ -79,11 +78,11 @@ function updateWelcomeAndScores() {
     if (username && userData[username]) {
         document.getElementById("welcome-message").textContent = `Hi ${username}!`;
 
-        // הצגת טבלת השיאים למשחקים
+        // clear previous high scores
         const highScoresDiv = document.getElementById("high-scores");
-        highScoresDiv.innerHTML = ""; // ניקוי כל תוכן קודם
+        highScoresDiv.innerHTML = "";
 
-        // הצגת שיאי Snake ו-2048
+        // display games high scores
         displayHighScores(userData[username].snakeHighScores, "Snake game");
         displayHighScores(userData[username].game2048HighScores, "2048 game");
     }
@@ -107,7 +106,7 @@ function displayHighScores(scores, title) {
     }
 }
 
-// חישוב זמן סשן עם יציאה מהדף
+// update welcome message and high scores when the page loads
 window.addEventListener("beforeunload", function () {
     calculateSessionDuration();
 });

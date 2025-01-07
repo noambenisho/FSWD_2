@@ -213,40 +213,34 @@ document.addEventListener("keydown", (event) => {
 createGrid();
 displayHighScores();
 
-// עדכון שיאי Snake עבור המשתמש הנוכחי
+// update the snake high scores for main page
 function updateUserHighScores(username, score) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
-    // ודא שמשתמש קיים
     if (!userData[username]) {
         console.error("User not found in userData.");
         return;
     }
 
-    // אם אין עדיין שיאים, צור מערך חדש
     if (!userData[username].snakeHighScores) {
         userData[username].snakeHighScores = [];
     }
 
-    // הוסף את הציון הנוכחי
     userData[username].snakeHighScores.push(score);
 
-    // שמור את השיאים המעודכנים
     localStorage.setItem("userData", JSON.stringify(userData));
 }
 
-// הצגת שיאי Snake עבור המשתמש הנוכחי
+// Display the user's high scores in the main page
 function displayUserHighScores(username) {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
-    // בדוק אם למשתמש יש שיאים
     const highScores = userData[username]?.snakeHighScores || [];
     const highScoresElement = document.getElementById("high-scores");
 
-    // הצג את השיאים בדף
     if (highScoresElement) {
         highScoresElement.innerHTML = highScores
-            .sort((a, b) => b - a)
+            .sort((a, b) => b - a) // Sort the scores in descending order
             .map((score, index) => `<li>${index + 1}. ${score}</li>`)
             .join("");
     }
@@ -319,20 +313,19 @@ function updateHighScores(score) {
 
 document.getElementById("difficulty-level").addEventListener("change", displayHighScores);
 
-
-// Phone support
+// Phone support 
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
 
-// זיהוי תחילת המגע
+// this event is triggered when the user touches the screen
 document.addEventListener("touchstart", (event) => {
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
 });
 
-// זיהוי סיום המגע
+// this event is triggered when the user stops touching the screen
 document.addEventListener("touchend", (event) => {
     touchEndX = event.changedTouches[0].clientX;
     touchEndY = event.changedTouches[0].clientY;
@@ -343,20 +336,20 @@ function handleSwipe() {
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
 
-    // בדיקה אם ההחלקה אופקית או אנכית
+    // check if the swipe is horizontal or vertical
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // החלקה אופקית
+        // horizontal swipe
         if (deltaX > 0 && direction.x === 0) {
-            direction = { x: 1, y: 0 }; // ימינה
+            direction = { x: 1, y: 0 }; 
         } else if (deltaX < 0 && direction.x === 0) {
-            direction = { x: -1, y: 0 }; // שמאלה
+            direction = { x: -1, y: 0 }; 
         }
     } else {
-        // החלקה אנכית
+        // vertical swipe
         if (deltaY > 0 && direction.y === 0) {
-            direction = { x: 0, y: 1 }; // למטה
+            direction = { x: 0, y: 1 }; 
         } else if (deltaY < 0 && direction.y === 0) {
-            direction = { x: 0, y: -1 }; // למעלה
+            direction = { x: 0, y: -1 }; 
         }
     }
 }
