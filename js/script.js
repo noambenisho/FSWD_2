@@ -163,6 +163,7 @@ function loginUser(event) {
 
 function initializeLoginForm() {
     const usernameField = document.querySelector("#login-form input[placeholder='Username or Email']");
-
+  
+}
 
 document.addEventListener("DOMContentLoaded", initializeLoginForm);
