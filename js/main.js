@@ -7,21 +7,21 @@ function formatTime(seconds) {
 }
 
 // update user info in the DOM
-function updateUserInfo() {
-    const username = localStorage.getItem("currentUser");
-    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+// function updateUserInfo() {
+//     const username = localStorage.getItem("currentUser");
+//     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
-    if (username && userData[username]) {
-        const totalTimeElement = document.getElementById("total-time");
-        const totalTimeInSeconds = userData[username].totalTime || 0;
+//     if (username && userData[username]) {
+//         const totalTimeElement = document.getElementById("total-time");
+//         const totalTimeInSeconds = userData[username].totalTime || 0;
 
-        totalTimeElement.textContent = formatTime(totalTimeInSeconds);
-    }
-}
+//         totalTimeElement.textContent = formatTime(totalTimeInSeconds);
+//     }
+// }
 
 // the logout button
 document.getElementById("logout-icon").addEventListener("click", function () {
-    calculateSessionDuration(); 
+    calculateSessionDuration();
     localStorage.removeItem("currentUser");
     localStorage.removeItem("currentSessionStart");
     window.location.href = "../html/login.html";
@@ -36,8 +36,8 @@ function calculateSessionDuration() {
 
     if (sessionStart && username) {
         const sessionDuration = Math.floor((now - sessionStart) / 1000); // calculate session duration in seconds
-        const currentTotal = userData[username]?.totalTime || 0; 
-        const newTotal = currentTotal + sessionDuration; 
+        const currentTotal = userData[username]?.totalTime || 0;
+        const newTotal = currentTotal + sessionDuration;
 
         userData[username].totalTime = newTotal;
         localStorage.setItem("userData", JSON.stringify(userData));
@@ -67,7 +67,7 @@ window.addEventListener("load", function () {
         localStorage.setItem("currentSessionStart", Date.now());
 
         // update user info in the DOM
-        updateUserInfo();
+        // updateUserInfo();
     }
 });
 
@@ -90,15 +90,15 @@ function updateWelcomeAndScores() {
 
 function displayHighScores(scores, title) {
     if (scores && scores.length > 0) {
-        scores.sort((a, b) => b - a); 
+        scores.sort((a, b) => b - a);
 
         let tableHTML = `<table><thead><tr><th>${title}</th></tr></thead><tbody>`;
-        const maxScoresToShow = 5; 
+        const maxScoresToShow = 5;
 
         for (let i = 0; i < Math.min(scores.length, maxScoresToShow); i++) {
             tableHTML += `<tr><td>${scores[i]}</td></tr>`;
         }
-        
+
         tableHTML += `</tbody></table>`;
         document.getElementById("high-scores").innerHTML += tableHTML;
     } else {
